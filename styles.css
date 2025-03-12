@@ -28,7 +28,8 @@ h2 {
   padding: 30px;
   border-radius: 10px;
   border: 1px solid #ccc;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);  display: flex;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
   flex-direction: column;
   text-align: left;
 }
@@ -102,11 +103,12 @@ label:has(input:checked) {
 .answerContainer {
   display: flex;
   align-items: center;
-  margin: 10px 0; 
+  margin: 10px 0;
   gap: 20px;
 }
 
-.correctAnswer, .userAnswer {
+.correctAnswer,
+.userAnswer {
   flex: 1;
   padding: 15px 10px;
 }
@@ -128,4 +130,11 @@ hr {
 #answersContainer h3 {
   margin-bottom: 20px;
   text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
