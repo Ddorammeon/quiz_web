@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bài Thi Trắc Nghiệm</title>
+    <title>Khảo sát Trắc Nghiệm</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
 
@@ -16,11 +16,11 @@
       <label for="dob">Ngày sinh:</label>
       <input type="date" id="dob" required />
 
-      <label for="studentId">Mã số sinh viên:</label>
-      <input type="text" id="studentId" required />
+      <label for="cccdId">Căn cước công dân:</label>
+      <input type="text" id="cccdId" required />
 
-      <label for="className">Lớp:</label>
-      <input type="text" id="className" required />
+      <label for="address">Địa chỉ thường trú:</label>
+      <input type="text" id="address" required />
 
       <button id="startQuiz">Bắt đầu làm bài</button>
     </div>
@@ -45,18 +45,18 @@
         .addEventListener("click", function () {
           const fullName = document.getElementById("fullName")?.value.trim();
           const dob = document.getElementById("dob")?.value;
-          const studentId = document.getElementById("studentId")?.value.trim();
-          const className = document.getElementById("className")?.value.trim();
+          const cccdId = document.getElementById("cccdId")?.value.trim();
+          const address = document.getElementById("address")?.value.trim();
 
-          if (!fullName || !dob || !studentId || !className) {
+          if (!fullName || !dob || !cccdId || !address) {
             alert("Vui lòng nhập đầy đủ thông tin!");
             return;
           }
 
           localStorage.setItem("fullName", fullName);
           localStorage.setItem("dob", dob);
-          localStorage.setItem("studentId", studentId);
-          localStorage.setItem("className", className);
+          localStorage.setItem("cccdId", cccdId);
+          localStorage.setItem("address", address);
 
           window.location.href = "quiz.html";
         });

@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bài Thi Trắc Nghiệm</title>
+    <title>Khảo sát Trắc Nghiệm</title>
     <link rel="stylesheet" href="./quiz.css" />
   </head>
   <body>
-    <h2>Bài Thi Trắc Nghiệm</h2>
+    <h2>Khảo sát Trắc Nghiệm</h2>
 
     <form id="quizForm">
       <div id="pagination-container"></div>
@@ -30,8 +30,8 @@
         // Kiểm tra nếu thiếu thông tin, điều hướng về trang chính
         if (
           !localStorage.getItem("fullName") ||
-          !localStorage.getItem("studentId") ||
-          !localStorage.getItem("className") 
+          !localStorage.getItem("cccdId") ||
+          !localStorage.getItem("address") 
         ) {
           window.location.href = "index.html"; // Điều hướng về trang chính nếu không có dữ liệu
         }

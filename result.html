@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kết Quả Bài Thi</title>
+    <title>Kết Quả Khảo sát</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div id="result-container">
-      <h2>Kết Quả Bài Thi</h2>
+      <h2>Kết Quả Khảo sát</h2>
       <div id="userInfo"></div>
       <p id="resultText"></p>
       <div class="button-container">
@@ -20,15 +20,15 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const fullName = localStorage.getItem("fullName");
-        const studentId = localStorage.getItem("studentId");
-        const className = localStorage.getItem("className");
+        const cccdId = localStorage.getItem("cccdId");
+        const address = localStorage.getItem("address");
         const score = localStorage.getItem("score");
         const totalQuestions = localStorage.getItem("totalQuestions");
 
         if (
           !localStorage.getItem("fullName") ||
-          !localStorage.getItem("studentId") ||
-          !localStorage.getItem("className") ||
+          !localStorage.getItem("cccdId") ||
+          !localStorage.getItem("address") ||
           !localStorage.getItem("score") ||
           !localStorage.getItem("totalQuestions")
         ) {
@@ -38,8 +38,8 @@
         document.getElementById(
           "userInfo"
         ).innerHTML = `     <p>Thí sinh: <strong>${fullName}</strong></p>
-      <p>Mã số sinh viên: <strong>${studentId}</strong></p>
-      <p>Lớp: <strong>${className}</strong></p>`;
+      <p>Căn cước công dân: <strong>${cccdId}</strong></p>
+      <p>Địa chỉ thường trú: <strong>${address}</strong></p>`;
         document.getElementById(
           "resultText"
         ).innerHTML = `Bạn đã trả lời đúng <strong>${score}/${totalQuestions}</strong> câu.`;
@@ -66,7 +66,7 @@
               : q.answer;
 
             html += `
-      <p><strong>Câu ${index + 1}:</strong> ${q.question}</p>
+      <p>${q.question}</p>
     <div class="answerContainer">
       <p class= "correctAnswer">Đáp án đúng: <strong>${correctAnswer}</strong></p>
       <p class= "userAnswer">Bạn đã chọn: <strong>${userAnswer.join(", ")}</strong></p>
