@@ -189,52 +189,52 @@ const questions = [
   {
     type: "essay",
     question: "Câu 31: Hãy mô tả một ngày làm việc hiệu quả của bạn?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 32: Bạn nghĩ gì về tầm quan trọng của giáo dục?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 33: Hãy viết một đoạn văn về sở thích của bạn?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 34: Theo bạn, làm thế nào để bảo vệ môi trường?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 35: Bạn mong muốn điều gì trong tương lai?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 36: Hãy kể về một kỷ niệm đáng nhớ của bạn?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 37: Bạn sẽ làm gì nếu trở thành nhà lãnh đạo?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 38: Hãy nêu ý kiến của bạn về công nghệ AI?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 39: Tại sao cần giữ gìn sức khỏe?",
-    answer: "",
+    answer: " ",
   },
   {
     type: "essay",
     question: "Câu 40: Hãy viết một bài luận ngắn về lòng biết ơn?",
-    answer: "",
+    answer: " ",
   },
 ];
 localStorage.setItem("questions", JSON.stringify(questions));
