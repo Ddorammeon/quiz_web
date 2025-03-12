@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kết Quả Bài Thi</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="result-container">
+      <h2>Kết Quả Bài Thi</h2>
+      <div id="userInfo"></div>
+      <p id="resultText"></p>
+      <div class="button-container">
+        <button onclick="window.location.href='index.html'">Làm lại bài</button>
+        <button id="viewAnswers">Xem đáp án</button>
+      </div>
+    </div>
+    <div id="answersContainer" style="display: none"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const fullName = localStorage.getItem("fullName");
+        const studentId = localStorage.getItem("studentId");
+        const className = localStorage.getItem("className");
+        const score = localStorage.getItem("score");
+        const totalQuestions = localStorage.getItem("totalQuestions");
+
+        if (
+          !localStorage.getItem("fullName") ||
+          !localStorage.getItem("studentId") ||
+          !localStorage.getItem("className") ||
+          !localStorage.getItem("score") ||
+          !localStorage.getItem("totalQuestions")
+        ) {
+          window.location.href = "index.html"; // Điều hướng về trang chính nếu không có dữ liệu
+        }
+
+        document.getElementById(
+          "userInfo"
+        ).innerHTML = `     <p>Thí sinh: <strong>${fullName}</strong></p>
+      <p>Mã số sinh viên: <strong>${studentId}</strong></p>
+      <p>Lớp: <strong>${className}</strong></p>`;
+        document.getElementById(
+          "resultText"
+        ).innerHTML = `Bạn đã trả lời đúng <strong>${score}/${totalQuestions}</strong> câu.`;
+      });
+
+      document
+        .getElementById("viewAnswers")
+        .addEventListener("click", function () {
+          const answersContainer = document.getElementById("answersContainer");
+          const userAnswers =
+            JSON.parse(localStorage.getItem("userAnswers")) || {};
+          const questions = JSON.parse(localStorage.getItem("questions")) || [];
+
+          if (questions.length === 0) {
+            answersContainer.innerHTML = "<p>Không có dữ liệu đáp án.</p>";
+            return;
+          }
+
+          let html = "<h3>Đáp án chi tiết</h3>";
+          questions.forEach((q, index) => {
+            const userAnswer = userAnswers[`q${index}`] || ["Chưa trả lời"];
+            const correctAnswer = Array.isArray(q.answer)
+              ? q.answer.join(", ")
+              : q.answer;
+
+            html += `
+      <p><strong>Câu ${index + 1}:</strong> ${q.question}</p>
+    <div class="answerContainer">
+      <p class= "correctAnswer">Đáp án đúng: <strong>${correctAnswer}</strong></p>
+      <p class= "userAnswer">Bạn đã chọn: <strong>${userAnswer.join(", ")}</strong></p>
+      </div>
+      <hr>
+    `;
+          });
+
+          answersContainer.innerHTML = html;
+          answersContainer.style.display = "block"; // Hiện khung hiển thị
+        });
+    </script>
+  </body>
+</html>

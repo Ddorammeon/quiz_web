@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bài Thi Trắc Nghiệm</title>
+    <link rel="stylesheet" href="./quiz.css" />
+  </head>
+  <body>
+    <h2>Bài Thi Trắc Nghiệm</h2>
+
+    <form id="quizForm">
+      <div id="pagination-container"></div>
+      <!-- Chứa nội dung của từng trang -->
+
+      <div id="pagination-controls">
+        <button type="button" id="prevPage" disabled>Trang trước</button>
+        <span id="pageIndicator"></span>
+        <button type="button" id="nextPage">Trang tiếp</button>
+      </div>
+
+      <button type="submit" id="submitBtn">Nộp bài</button>
+    </form>
+
+
+
+    <script src="./question.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Kiểm tra nếu thiếu thông tin, điều hướng về trang chính
+        if (
+          !localStorage.getItem("fullName") ||
+          !localStorage.getItem("studentId") ||
+          !localStorage.getItem("className") 
+        ) {
+          window.location.href = "index.html"; // Điều hướng về trang chính nếu không có dữ liệu
+        }
+      });
+    </script>
+    <script>
+      let currentPage = 0;
+      const questionsPerPage = 10;
+      let totalPages = Math.ceil(questions.length / questionsPerPage);
+      let userAnswers = {}; // Lưu trữ câu trả lời của người dùng
+
+      function loadQuestions() {
+        const container = document.getElementById("pagination-container");
+        container.innerHTML = ""; 
+
+        const start = currentPage * questionsPerPage;
+        const end = Math.min(start + questionsPerPage, questions.length);
+
+        for (let i = start; i < end; i++) {
+          const q = questions[i];
+          const questionDiv = document.createElement("div");
+          questionDiv.classList.add("question");
+          questionDiv.innerHTML = `<p>${q.question}</p>`;
+
+          if (q.options && Array.isArray(q.options)) {
+            q.options.forEach((option) => {
+              const label = document.createElement("label");
+              const input = document.createElement("input");
+              input.type = q.type === "multiSelect" ? "checkbox" : "radio";
+              input.name = `q${i}`;
+              input.value = option;
+
+              if (userAnswers[`q${i}`]?.includes(option)) {
+                input.checked = true;
+              }
+
+              input.addEventListener("change", () => {
+                if (q.type === "multiSelect") {
+                  if (!userAnswers[`q${i}`]) userAnswers[`q${i}`] = [];
+                  if (input.checked) {
+                    userAnswers[`q${i}`].push(option);
+                  } else {
+                    userAnswers[`q${i}`] = userAnswers[`q${i}`].filter(
+                      (ans) => ans !== option
+                    );
+                  }
+                } else {
+                  userAnswers[`q${i}`] = [option];
+                }
+
+                localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+              });
+
+              label.appendChild(input);
+              label.appendChild(document.createTextNode(` ${option}`));
+              questionDiv.appendChild(label);
+            });
+          } else if (q.type === "essay") {
+            const textarea = document.createElement("textarea");
+            textarea.name = `q${i}`;
+            textarea.value = userAnswers[`q${i}`] || "";
+            textarea.addEventListener("input", (e) => {
+              userAnswers[`q${i}`] = e.target.value;
+            });
+            questionDiv.appendChild(textarea);
+          }
+
+          container.appendChild(questionDiv);
+        }
+
+        updatePaginationControls();
+      }
+
+      function updatePaginationControls() {
+        document.getElementById("prevPage").disabled = currentPage === 0;
+        document.getElementById("nextPage").disabled =
+          currentPage === totalPages - 1;
+        document.getElementById("pageIndicator").textContent = `Trang ${
+          currentPage + 1
+        } / ${totalPages}`;
+      }
+
+      document.getElementById("prevPage").addEventListener("click", () => {
+        if (currentPage > 0) {
+          currentPage--;
+          loadQuestions();
+        }
+      });
+
+      document.getElementById("nextPage").addEventListener("click", () => {
+        if (currentPage < totalPages - 1) {
+          currentPage++;
+          loadQuestions();
+        }
+      });
+
+      document
+        .getElementById("quizForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          let unanswered = [];
+          let score = 0;
+          let totalQuestions = questions.length;
+
+          questions.forEach((q, index) => {
+            let userAnswer = userAnswers[`q${index}`];
+
+            if (!userAnswer || userAnswer.length === 0) {
+              unanswered.push(index + 1);
+            } else if (q.type === "multiSelect") {
+              if (
+                JSON.stringify(userAnswer.sort()) ===
+                JSON.stringify(q.answer.sort())
+              ) {
+                score++;
+              }
+            } else if (q.type !== "essay") {
+              if (userAnswer[0] === q.answer) {
+                score++;
+              }
+            }
+          });
+
+          if (unanswered.length > 0) {
+            let confirmSubmit = confirm(
+              `Bạn chưa trả lời hết câu hỏi (${unanswered.join(
+                ", "
+              )}). Bạn có muốn nộp bài không?`
+            );
+            if (!confirmSubmit) return;
+          }
+
+          localStorage.setItem("score", score);
+          localStorage.setItem("totalQuestions", totalQuestions);
+          window.location.href = "result.html";
+        });
+
+      loadQuestions();
+    </script>
+  </body>
+</html>

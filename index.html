@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bài Thi Trắc Nghiệm</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div id="user-info">
+      <h2>Thông tin thí sinh</h2>
+      <label for="fullName">Họ và tên:</label>
+      <input type="text" id="fullName" required />
+
+      <label for="dob">Ngày sinh:</label>
+      <input type="date" id="dob" required />
+
+      <label for="studentId">Mã số sinh viên:</label>
+      <input type="text" id="studentId" required />
+
+      <label for="className">Lớp:</label>
+      <input type="text" id="className" required />
+
+      <button id="startQuiz">Bắt đầu làm bài</button>
+    </div>
+
+    <script>
+      document.getElementById("dob").addEventListener("input", function () {
+        let inputDate = new Date(this.value);
+        let today = new Date();
+
+        // Loại bỏ giờ, phút, giây để so sánh đúng ngày
+        today.setHours(0, 0, 0, 0);
+        inputDate.setHours(0, 0, 0, 0);
+
+        if (inputDate >= today) {
+          alert("Ngày sinh không được là hôm nay hoặc trong tương lai!");
+          this.value = "";
+        }
+      });
+
+      document
+        .getElementById("startQuiz")
+        .addEventListener("click", function () {
+          const fullName = document.getElementById("fullName")?.value.trim();
+          const dob = document.getElementById("dob")?.value;
+          const studentId = document.getElementById("studentId")?.value.trim();
+          const className = document.getElementById("className")?.value.trim();
+
+          if (!fullName || !dob || !studentId || !className) {
+            alert("Vui lòng nhập đầy đủ thông tin!");
+            return;
+          }
+
+          localStorage.setItem("fullName", fullName);
+          localStorage.setItem("dob", dob);
+          localStorage.setItem("studentId", studentId);
+          localStorage.setItem("className", className);
+
+          window.location.href = "quiz.html";
+        });
+    </script>
+  </body>
+</html>
